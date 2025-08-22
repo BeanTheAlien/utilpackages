@@ -2,6 +2,6 @@
 Various utility packages for various languages.
 
 # Included Languages
-JavaScript (1 package)<br>
-Java (??? packages)<br>
-Python (1 package)
+<p>JavaScript (1 package)</p>
+<p>Java (??? packages)</p>
+<p>Python (1 package)</p>
