@@ -1,1 +1,1 @@
-## JavaScript Utility Pack Documentation
+# JavaScript Utility Pack Documentation
