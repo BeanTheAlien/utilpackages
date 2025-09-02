@@ -89,4 +89,7 @@ public class ghost {
             default -> 0;
         };
     }
+    public static boolean isValidIndex(Object[] arr, int index) {
+        return (0 <= index && index < arr.length);
+    }
 }
