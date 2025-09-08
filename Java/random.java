@@ -11,5 +11,5 @@ public class random {
         }
     }
     public static boolean chance(int floor) { return ((int)(Math.random() * 101)) <= floor; }
-    public static boolean ranBool() { return Math.random() <= 0.5; }
+    public static boolean ranBool() { return (int)(Math.random() * 101) <= 50; }
 }
