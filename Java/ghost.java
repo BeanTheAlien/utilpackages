@@ -92,4 +92,5 @@ public class ghost {
     public static boolean isValidIndex(Object[] arr, int index) {
         return (0 <= index && index < arr.length);
     }
+    public static boolean is(Object a, Object b) { return a.equals(b); }
 }
