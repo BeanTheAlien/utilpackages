@@ -93,4 +93,5 @@ public class ghost {
         return (0 <= index && index < arr.length);
     }
     public static boolean is(Object a, Object b) { return a.equals(b); }
+    public static boolean eqls(double a, double b, double tolerance) { return Math.abs(a - b) < tolerance; }
 }
