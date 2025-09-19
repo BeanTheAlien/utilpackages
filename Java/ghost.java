@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.Collections;
 
+
 public class ghost {
     public static int toInt(Object val) {
         try {
