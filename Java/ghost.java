@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.Collections;
+
 public class ghost {
     public static int toInt(Object val) {
         try {
@@ -94,4 +97,9 @@ public class ghost {
     }
     public static boolean is(Object a, Object b) { return a.equals(b); }
     public static boolean eqls(double a, double b, double tolerance) { return Math.abs(a - b) < tolerance; }
+    public static void sort(Object[] arr) { Arrays.sort(arr); }
+    public static void sort(Object[] arr, boolean reverse) {
+        if(reverse) Arrays.sort(arr, Collections.reverseOrder(arr);
+        else Arrays.sort(arr);
+    }
 }
