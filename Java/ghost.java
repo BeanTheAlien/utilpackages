@@ -102,4 +102,7 @@ public class ghost {
         if(reverse) Arrays.sort(arr, Collections.reverseOrder(arr);
         else Arrays.sort(arr);
     }
+    public static boolean has(Object[] arr, Object target) {
+        for(int i = 0; i < arr.length; i++) if(String.valueOf(arr[i]).equals(String.valueOf(target))) return true; else continue;
+    }
 }
