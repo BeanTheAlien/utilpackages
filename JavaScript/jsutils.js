@@ -1,3 +1,17 @@
+/**
+ * Generates a random number within a range.
+ * 
+ * If no values are passed, return a value between 0 - 100.
+ * 
+ * If a is passed, but not b, return a value between 0 - a.
+ * 
+ * If a and b are passed, return a value between a - b.
+ * 
+ * Should a be more than b, sets a = b, b = a.
+ * @param {number|null} a - The lower bound.
+ * @param {number|null} b - The upper bound.
+ * @returns {int} The randomly generated integer.
+ */
 export function random(a = null, b = null) {
     if(a == null && b == null) {
         return Math.floor(Math.random() * 101);
@@ -20,10 +34,21 @@ export function random(a = null, b = null) {
     }
 }
 
+/**
+ * Returns a boolean representing whether a randomly generated number between 0 - 100 is less equal the floor.
+ * @param {number} floor - The lowest bound.
+ * @returns {boolean} Whether the number was less equal.
+ */
 export function chance(floor = 50) {
     return (random() <= floor);
 }
 
+/**
+ * Returns whether this is within the range of a - b.
+ * @param {number} a - The lower bound.
+ * @param {number} b - The upper bound.
+ * @returns {boolean} Whether this is within the specified range.
+ */
 export function inRange(a = 0, b = 100) {
     const x = Math.min(a, b);
     const y = Math.max(a, b);
@@ -32,24 +57,41 @@ export function inRange(a = 0, b = 100) {
 
 Number.prototype.inRange = inRange;
 
+/**
+ * Converts this string to uppercase.
+ * @returns {string} The uppercase version.
+ */
 export function toUpper() {
     return this.toUpperCase();
 }
 
 String.prototype.toUpper = toUpper;
 
+/**
+ * Converts this string to lowercase.
+ * @returns {string} The lowercase version.
+ */
 export function toLower() {
     return this.toLowerCase();
 }
 
 String.prototype.toLower = toLower;
 
+/**
+ * Converts this string to titlecase.
+ * @returns {string} The titlecase version.
+ */
 export function toTitle() {
     return this.replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.substring(1).toLowerCase());
 }
 
 String.prototype.toTitle = toTitle;
 
+/**
+ * Executes this function a specified amount of times.
+ * @param {number} times - The number of times.
+ * @param  {...Object} args - The arguments to pass to the call.
+ */
 export function repeat(times, ...args) {
     for(let i = 0; i < times; i++) {
         try {
@@ -62,12 +104,23 @@ export function repeat(times, ...args) {
 
 Function.prototype.repeat = repeat;
 
-export function big(n = 1) {
-    return [...this].sort((a, b) => a - b)[n - 1];
+/**
+ * Returns the nth largest value in this array.
+ * @param {number} n - The nth index.
+ * @returns {number} The nth largest value.
+ */
+export function big(n) {
+    return [...this].sort((a, b) => a - b)[n];
 }
 
 Array.prototype.big = big;
 
+/**
+ * Parses this string to an integer.
+ * @param {number|Object|null} fb - The value to return, should the operation fail.
+ * @returns {number|Object} The parsed number.
+ * @deprecated Use the standard `parseInt` instead.
+ */
 export function toInt(fb = null) {
     let cleaned = this.replace(/[^0-9\.\-]/g, "");
     let result = [];
@@ -89,6 +142,12 @@ export function toInt(fb = null) {
     }
 }
 
+/**
+ * Parses this string into a float.
+ * @param {number|Object|null} fb - The value to return, should this operation fail.
+ * @returns {number|Object} The parsed number.
+ * @deprecated Use the standard `parseFloat` instead.
+ */
 export function toFloat(fb = null) {
     let cleaned = this.replace(/[^0-9\.\-]/g, "");
     let result = [];
@@ -113,24 +172,42 @@ export function toFloat(fb = null) {
 String.prototype.toInt = toInt;
 String.prototype.toFloat = toFloat;
 
+/**
+ * Returns the floor of this number.
+ * @returns {number} The floored value.
+ */
 export function floor() {
     return Math.floor(this);
 }
 
 Number.prototype.floor = floor;
 
+/**
+ * Returns the ceil of this number.
+ * @returns {number} The ceiled value.
+ */
 export function roof() {
     return Math.ceil(this);
 }
 
 Number.prototype.roof = roof;
 
+/**
+ * Replaces old values with new ones in this array.
+ * @param {Object} Old - The old value.
+ * @param {Object} New - The new value.
+ */
 export function sub(Old, New) {
-    return this.map(item => item == Old ? New : item);
+    for(let i = 0; i < this.length; i++) this[i] = this[i] == Old ? New : this[i];
 }
 
 Array.prototype.sub = sub;
 
+/**
+ * Removes values from an array.
+ * @param  {...Object} bad - Values that should be removed.
+ * @returns {Array} A reference to this.
+ */
 export function arrayRemove(...bad) {
     for(let i = this.length - 1; i >= 0; i--) {
         if(bad.includes(this[i])) {
@@ -142,13 +219,24 @@ export function arrayRemove(...bad) {
 
 Array.prototype.remove = arrayRemove;
 
+/**
+ * Adds values to an array.
+ * @param  {...Object} vals - The values to be added to the array.
+ * @returns {Array} A reference to this.
+ */
 export function arrayAdd(...vals) {
-    vals.forEach(val => this.push(val));
+    this.push(...vals);
     return this;
 }
 
 Array.prototype.add = arrayAdd;
 
+/**
+ * Converts a string to HTML.
+ * @returns {string} The HTML-parsed string.
+ * @deprecated There are better libraries avalible for this.
+ * @see https://www.jsdelivr.com/package/npm/marked
+ */
 export function toHTML() {
     function parseComponents(data) {
         function check(r, z) {
