@@ -1,7 +1,23 @@
-export function random(a = 0, b = 101) {
-    const x = Math.min(a, b);
-    const y = Math.max(a, b);
-    return Math.floor(Math.random() * (Math.floor(y) - Math.ceil(x)) + Math.ceil(x));
+export function random(a = null, b = null) {
+    if(a == null && b == null) {
+        return Math.floor(Math.random() * 101);
+    } else if(a != null && b == null) {
+        return Math.floor(Math.random() * a);
+    } else if(a != null && b != null) {
+        let min;
+        let max;
+        if(a > b) {
+            min = Math.ceil(b);
+            max = Math.floor(a);
+            return Math.floor(Math.random() * (max - min)) + min;
+        } else if(a < b) {
+            min = Math.ceil(a);
+            max = Math.floor(b);
+            return Math.floor(Math.random() * (max - min)) + min;
+        } else {
+            return Math.floor(Math.random() * a);
+        }
+    }
 }
 
 export function chance(floor = 50) {
@@ -34,12 +50,12 @@ export function toTitle() {
 
 String.prototype.toTitle = toTitle;
 
-export function repeat(times) {
+export function repeat(times, ...args) {
     for(let i = 0; i < times; i++) {
         try {
-            this();
-        } catch(error) {
-            console.log(error);
+            this(...args);
+        } catch(e) {
+            console.log(e);
         }
     }
 }
@@ -47,13 +63,13 @@ export function repeat(times) {
 Function.prototype.repeat = repeat;
 
 export function big(n = 1) {
-    return this.sort((a, b) => a - b)[n - 1];
+    return [...this].sort((a, b) => a - b)[n - 1];
 }
 
 Array.prototype.big = big;
 
 export function toInt(fb = null) {
-    let cleaned = String(this).replace(/[^0-9\.\-]/g, "");
+    let cleaned = this.replace(/[^0-9\.\-]/g, "");
     let result = [];
     let c = cleaned.split('');
     for(let i = 0; i < c.length; i++) {
@@ -74,7 +90,7 @@ export function toInt(fb = null) {
 }
 
 export function toFloat(fb = null) {
-    let cleaned = String(this).replace(/[^0-9\.\-]/g, "");
+    let cleaned = this.replace(/[^0-9\.\-]/g, "");
     let result = [];
     let c = cleaned.split('');
     for(let i = 0; i < c.length; i++) {
@@ -94,8 +110,8 @@ export function toFloat(fb = null) {
     }
 }
 
-Object.prototype.toInt = toInt;
-Object.prototype.toFloat = toFloat;
+String.prototype.toInt = toInt;
+String.prototype.toFloat = toFloat;
 
 export function floor() {
     return Math.floor(this);
@@ -109,35 +125,13 @@ export function roof() {
 
 Number.prototype.roof = roof;
 
-Object.defineProperty(Array.prototype, "indexAs", {
-    get() {
-        return this._indexAs;
-    },
-    set(n) {
-        if(typeof n != "number") return;
-        this._indexAs = Math.round(n);
-    }
-});
-
-export function getIndex(index) {
-    return this[this.indexAs * index];
-}
-
-Array.prototype.getIndex = getIndex;
-
-export function splitAll(delimiter) {
-    return this.map(item => item.split(delimiter));
-}
-
-Array.prototype.splitAll = splitAll;
-
 export function sub(Old, New) {
     return this.map(item => item == Old ? New : item);
 }
 
 Array.prototype.sub = sub;
 
-export function remove(...bad) {
+export function arrayRemove(...bad) {
     for(let i = this.length - 1; i >= 0; i--) {
         if(bad.includes(this[i])) {
             this.splice(i, 1);
@@ -146,14 +140,14 @@ export function remove(...bad) {
     return this;
 }
 
-Array.prototype.remove = remove;
+Array.prototype.remove = arrayRemove;
 
-export function add(...vals) {
+export function arrayAdd(...vals) {
     vals.forEach(val => this.push(val));
     return this;
 }
 
-Array.prototype.add = add;
+Array.prototype.add = arrayAdd;
 
 export function toHTML() {
     function parseComponents(data) {
@@ -192,26 +186,6 @@ export function getEl(id) {
     return document.getElementById(id);
 }
 
-export function clickEvent(execute) {
-    try {
-        this.addEventListener("click", execute);
-    } catch(error) {
-    }
-}
-
-Element.prototype.clickEvent = clickEvent;
-
-export function hoverEvent(start, end) {
-    try {
-        this.addEventListener("mouseover", start);
-        this.addEventListener("mouseout", end);
-    } catch(error) {
-        console.log(error);
-    }
-}
-
-Element.prototype.hoverEvent = hoverEvent;
-
 export function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -244,14 +218,6 @@ export function isTrue(...conds) {
 
 export function isFalse(...conds) {
     return conds.every(cond => !safeEval(cond));
-}
-
-export function safeEval(value) {
-    try {
-        return (new Function(`return (${value})`))();
-    } catch {
-        return value;
-    }
 }
 
 export function bkgColor() {
@@ -388,7 +354,7 @@ export function numSort() {
 Array.prototype.numSort = numSort;
 
 export function ToString() {
-    return JSON.stringify(this);
+    return typeof this != "string" ? JSON.stringify(this) : this;
 }
 
 Object.prototype.ToString = ToString;
@@ -528,7 +494,7 @@ export function roundMult(n) {
 
 Number.prototype.roundMult = roundMult;
 
-export function closest(string, count = this.length) {
+export function closest(string, count = Infinity, minscore = 0) {
     let result = this.map(item => {
         const stringItem = typeof item == "string" ? item : JSON.stringify(item);
         let score = 0;
@@ -544,7 +510,9 @@ export function closest(string, count = this.length) {
         return { item, score };
     });
     result.sort((a, b) => b.score - a.score);
-    return result.slice(0, count);
+    result = result.slice(0, count);
+    result = result.filter(e => e.score > minscore);
+    return result;
 }
 
 Array.prototype.closest = closest;
@@ -554,7 +522,7 @@ export function sqrt() {
 }
 
 export function pow(n = 2) {
-    return Math.pow(this, 2);
+    return Math.pow(this, n);
 }
 
 Number.prototype.sqrt = sqrt;
@@ -564,7 +532,7 @@ export function dist(x1, y1, x2, y2) {
     return Math.hypot(x2 - x1, y2 - y1);
 }
 
-export class mouse {
+export class Mouse {
     static getPos() {
         return new Promise((resolve) => {
             const getPos = function(event) {
@@ -606,6 +574,13 @@ export class mouse {
             }
             document.addEventListener("mousemove", getPos);
         })
+    }
+    static track(target) {
+        document.addEventListener("mousemove", (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            target = { x, y };
+        });
     }
 }
 
@@ -693,9 +668,16 @@ export function same(keys, val) {
 
 Object.prototype.same = same;
 
-export function similar(a, b) {
-    let score;
-}
+// export function similar(a, b) {
+//     let score = 0;
+//     if(typeof a == typeof b) score++;
+//     let same = 0;
+//     const splits = [String(a).split(''), String(b).split('')];
+//     for(let i = 0; i < Math.min(splits[0].length, splits[1].length)) if(splits[0][i] == splits[1][i]) same++;
+//     score += same;
+//     if(a == b) score++;
+//     return score / checks.length;
+// }
 
 export function quadratic(a, b, c) {
     const n = Math.sqrt(Math.pow(b, 2) - (4 * a * c));
@@ -759,6 +741,172 @@ export function toHex() {
 Number.prototype.toHex = toHex;
 String.prototype.toHex = toHex;
 
+export function gsFormat() {
+    let result = this;
+    const repls = [
+        { "base": "string", "code": "s", "props": { "len": { "type": "int", "exec": (args)  => { return args[0].substring(0, args[1]); } } } },
+        { "base": "num", "code": "n", "props": { "round": { "type": "int", "exec": (args) => { return args[0].toFixed(args[1]); } } } }
+    ];
+    result = result.replace(/\s*/, "");
+    const regex = new RegExp("#{(.*)?}");
+    while(true) {
+        if(!regex.test(result)) break;
+        const match = result.match(regex);
+        break;
+    }
+}
+
+String.prototype.gsFormat = gsFormat;
+
+export async function getIP() {
+    try {
+        const response = await fetch("https://api.ipify.org?format=json");
+        const data = await response.json();
+        return data.ip;
+    } catch(e) {
+        console.error(`Error fetching IP: ${e}`);
+        return null;
+    }
+}
+
+export function isInt() {
+    return Number.isInteger(this);
+}
+
+export function isFloat() {
+    return !Number.isInteger(this);
+}
+
+export function isArr() {
+    return Array.isArray(this);
+}
+
+Number.prototype.isInt = isInt;
+Number.prototype.isFloat = isFloat;
+Object.prototype.isArr = isArr;
+
+export function is(cl) {
+    return this instanceof cl;
+}
+
+Object.prototype.is = is;
+
+export function isFactorable(a, b, c) {
+    const r = Math.sqrt(Math.pow(b, 2) - (4 * a * c));
+    return r == Math.round(r);
+}
+
+export function elementAdd(...elements) {
+    for(const el of elements) this.appendChild(el);
+}
+
+Element.prototype.add = elementAdd;
+
+export function styleize(s) {
+    Object.assign(this.style, s);
+}
+
+Element.prototype.styleize = styleize;
+
+export function mkEl(id, opts = {}) {
+    return document.createElement(id, opts);
+}
+
+class ItemList extends HTMLElement {
+    // attributes to watch
+    static observedAttributes = [];
+    constructor(sep = ", ") {
+        super();
+        this.items = [];
+        this.sep = sep;
+    }
+    add(...items) {
+        this.items.push(...items);
+    }
+    remove(...items) {
+        for(let i = this.items.length - 1; i >= 0; i--) {
+            if(items.includes(this.items[i])) {
+                this.items.splice(i, 1);
+            }
+        }
+    }
+    refresh() {
+        this.innerHTML = this.items.join(this.sep);
+    }
+    // added to DOM
+    connectedCallback() {
+        this.innerHTML = "<h1>Hello World</h1>";
+    }
+    // removed from DOM
+    disconnectedCallback() {
+        alert(":(");
+    }
+    // attribute change
+    attributeChangedCallback(name, oldval, newval) {
+        console.log(`'${name}' changed: ${oldval} => ${newval}`);
+    }
+}
+
+/*
+connectedCallback(): Called each time the element is added to the document. The specification recommends that, as far as possible, developers should implement custom element setup in this callback rather than the constructor.
+disconnectedCallback(): Called each time the element is removed from the document.
+connectedMoveCallback(): When defined, this is called instead of connectedCallback() and disconnectedCallback() each time the element is moved to a different place in the DOM via Element.moveBefore(). Use this to avoid running initialization/cleanup code in the connectedCallback() and disconnectedCallback() callbacks when the element is not actually being added to or removed from the DOM. See Lifecycle callbacks and state-preserving moves for more details.
+adoptedCallback(): Called each time the element is moved to a new document.
+attributeChangedCallback(): Called when attributes are changed, added, removed, or replaced. See Responding to attribute changes for more details about this callback.
+*/
+window.customElements.define("item-list", ItemList);
+// { extends: string (el) }, 3 param
+// use with is="etwas"
+// https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement
+
+export function ranChar() {
+    return String.fromCharCode(random(97, 123));
+}
+
+export function ranString(len) {
+    let chars = [];
+    for(let i = 0; i < len; i++) chars.push(ranChar());
+    return chars.join("");
+}
+
+export function elementRemove(...elements) {
+    for(const el of elements) this.removeChild(el);
+}
+
+Element.prototype.remove = elementRemove;
+
+// export function getConsoleCont() {
+//     //
+// }
+
+/*
+console.stdlog = console.log.bind(console);
+console.logs = [];
+console.log = function(){
+    console.logs.push(Array.from(arguments));
+    console.stdlog.apply(console, arguments);
+}
+
+rep for err, warn, usw
+*/
+
+// export class Point {
+//     constructor(x, y) {
+//         this.x = x;
+//         this.y = y;
+//     }
+//     dist(x, y) {}
+// }
+
+// export class Vector {
+//     constructor(x, y, z) {
+//         this.x = x;
+//         this.y = y;
+//         this.z = z;
+//     }
+//     dist(x, y, z) {}
+// }
+
 // export function splice(start, rem, ...add) {
 //     return this.split('').splice()
 // }
@@ -790,6 +938,8 @@ return collide;
 //stop() => stops
 
 /*
-import '/jsutils.js';
-import { random, chance, getEl, wait, isTrue, isFalse, safeEval, RandomNums, ClickRegion, copyToClipboard, dist, mouse, lsGet, lsSet, similar, quadratic, getQuerys, Keybinds } from '/jsutils.js';
+import "/utils.js";
+import { random, chance, getEl, wait, isTrue, isFalse, safeEval, RandomNums, ClickRegion, copyToClipboard, dist, Mouse, lsGet, lsSet, quadratic, getQuerys, isFactorable, makeEl, ItemList } from "/utils.js";
+--- or ---
+import * as utils from "/utils.js";
 */
