@@ -963,6 +963,12 @@ export function elementRemove(...elements) {
 
 Element.prototype.remove = elementRemove;
 
+export function nrt(n) {
+    return Math.pow(this, 1 / n);
+}
+
+Number.prototype.nrt = nrt;
+
 // export function getConsoleCont() {
 //     //
 // }
