@@ -900,7 +900,7 @@ export function mkEl(id, opts = {}) {
     return document.createElement(id, opts);
 }
 
-class ItemList extends HTMLElement {
+export class ItemList extends HTMLElement {
     // attributes to watch
     static observedAttributes = [];
     constructor(sep = ", ") {
@@ -1033,7 +1033,7 @@ return collide;
 
 /*
 import "/utils.js";
-import { random, chance, getEl, wait, isTrue, isFalse, safeEval, RandomNums, ClickRegion, copyToClipboard, dist, Mouse, lsGet, lsSet, quadratic, getQuerys, isFactorable, makeEl, ItemList } from "/utils.js";
+import { random, chance, getEl, wait, isTrue, isFalse, safeEval, RandomNums, ClickRegion, copyToClipboard, dist, Mouse, lsGet, lsSet, quadratic, getQuerys, isFactorable, mkEl, ItemList } from "/utils.js";
 --- or ---
 import * as utils from "/utils.js";
 */
