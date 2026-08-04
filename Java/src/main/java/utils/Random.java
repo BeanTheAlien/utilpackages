@@ -1,18 +1,27 @@
 package utils;
 public class Random {
-    public static int random() {
-        return (int)(Math.random() * 101);
+    public static double ranFloat() {
+        return (Math.random() * 101);
     }
-    public static int random(int a) {
-        return (int)(Math.random() * a);
+    public static double ranFloat(int a) {
+        return (Math.random() * a);
     }
-    public static int random(int a, int b) {
+    public static double ranFloat(int a, int b) {
         if(a > b) {
             int t = a;
             a = b;
             b = t;
         }
-        return (int)(Math.random() * (b - a)) + a;
+        return (Math.random() * (b - a)) + a;
+    }
+    public static int random() {
+        return (int)Random.ranFloat();
+    }
+    public static int random(int a) {
+        return (int)Random.ranFloat(a);
+    }
+    public static int random(int a, int b) {
+        return (int)Random.ranFloat(a, b);
     }
     public static boolean chance(int floor, int ceil) {
         return Random.random(ceil) <= floor;

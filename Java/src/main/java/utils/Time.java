@@ -12,7 +12,7 @@ public class Time {
     return this.exec.schedule(fn, delay, TimeUnit.MILLISECONDS);
   }
   public ScheduledFuture<?> setInterval(Runnable fn, int rate) {
-    return this.exec.scheduleAtFixedRate(fn, rate, TimeUnit.MILLISECONDS);
+    return this.exec.scheduleAtFixedRate(fn, 0, rate, TimeUnit.MILLISECONDS);
   }
   public void clearInterval(ScheduledFuture<?> sched) {
     sched.cancel(true);
