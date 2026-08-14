@@ -62,6 +62,9 @@ function chance(max: number, upperBound: number): boolean;
 function chance(max: number, upperBound?: number): boolean {
     return max <= random((upperBound ?? 100) + 1);
 }
+function gcd(a: number, b: number) {
+    return b == 0 ? a : gcd(b, a % b);
+}
 
 declare global {
     interface String {
