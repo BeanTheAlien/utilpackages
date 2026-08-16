@@ -29,6 +29,9 @@ function random(a, b) {
 function chance(max, upperBound) {
     return max <= random((upperBound ?? 100) + 1);
 }
+function gcd(a, b) {
+    return b == 0 ? a : gcd(b, a % b);
+}
 String.prototype.toNum = function () {
     return Number(this);
 };
@@ -70,7 +73,7 @@ Number.prototype.floor = function () {
 };
 function round(places) {
     if (places)
-        return this.toFixed(places);
+        return Number(this.toFixed(places));
     return Math.round(this.valueOf());
 }
 Number.prototype.round = round;
@@ -125,4 +128,4 @@ Object.prototype.str = function () {
 Object.prototype.has = function (key) {
     return Object.hasOwn(this, key);
 };
-export { random, chance, wait };
+export { random, chance, wait, gcd };

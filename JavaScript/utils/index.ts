@@ -62,7 +62,7 @@ function chance(max: number, upperBound: number): boolean;
 function chance(max: number, upperBound?: number): boolean {
     return max <= random((upperBound ?? 100) + 1);
 }
-function gcd(a: number, b: number) {
+function gcd(a: number, b: number): number {
     return b == 0 ? a : gcd(b, a % b);
 }
 
@@ -119,10 +119,10 @@ declare global {
          */
         round(): number;
         /**
-         * Returns a string of this, rounded to the amount of places.
+         * Returns a number of this, rounded to the amount of places.
          * @param places The places to round to.
          */
-        round(places: number): string;
+        round(places: number): number;
         /**
          * Returns whether this is an integer.
          */
@@ -240,9 +240,9 @@ Number.prototype.floor = function(this) {
     return Math.floor(this.valueOf());
 }
 function round(this: Number): number;
-function round(this: Number, places: number): string;
+function round(this: Number, places: number): number;
 function round(this: Number, places?: number) {
-    if(places) return this.toFixed(places);
+    if(places) return Number(this.toFixed(places));
     return Math.round(this.valueOf());
 }
 Number.prototype.round = round;
@@ -302,4 +302,4 @@ Object.prototype.has = function(this, key) {
     return Object.hasOwn(this, key);
 }
 
-export { random, chance, wait };
+export { random, chance, wait, gcd };
