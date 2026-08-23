@@ -127,7 +127,7 @@ export default function(arg) {
     };
     fs.writeFileSync(`${tg}.el.ts`, `const map = {
     get: <T extends HTMLElement>(id: string) => document.getElementById(id) as T,
-    ${Object.entries(out).map(i => [i[0], idMap[i[1]]]).map(i => `\t${i[0]}: () => map.get<${i[1]}>("${i[0]}")`).join("\n")}
+    ${Object.entries(out).map(i => [i[0], idMap[i[1]]]).map(i => `get ${i[0]}() { return map.get<${i[1]}>("${i[0]}"); }`).join("\n")}
 } as const;
 export default map;`);
 };
