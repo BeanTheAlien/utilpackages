@@ -15,6 +15,9 @@ function readdirDeep(dir: string, ignore: string) {
     }
     return out;
 }
+const exists = fs.existsSync.bind(null);
+const read = fs.readFileSync.bind(null);
+const write = fs.writeFileSync.bind(null);
 
 /**
  * const fs = require('fs');
