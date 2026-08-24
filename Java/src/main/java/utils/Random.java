@@ -1,12 +1,12 @@
 package utils;
 public class Random {
-    public static double ranFloat() {
+    public static double randFloat() {
         return (Math.random() * 101);
     }
-    public static double ranFloat(int a) {
+    public static double randFloat(int a) {
         return (Math.random() * a);
     }
-    public static double ranFloat(int a, int b) {
+    public static double randFloat(int a, int b) {
         if(a > b) {
             int t = a;
             a = b;
@@ -15,13 +15,13 @@ public class Random {
         return (Math.random() * (b - a)) + a;
     }
     public static int random() {
-        return (int)Random.ranFloat();
+        return (int)Random.randFloat();
     }
     public static int random(int a) {
-        return (int)Random.ranFloat(a);
+        return (int)Random.randFloat(a);
     }
     public static int random(int a, int b) {
-        return (int)Random.ranFloat(a, b);
+        return (int)Random.randFloat(a, b);
     }
     public static Array<Integer> randoms(int count) {
         return Random.randoms(101, count);
@@ -34,13 +34,29 @@ public class Random {
         for(int i = 0; i < count; i++) arr.add(Random.random(min, max));
         return arr;
     }
+    public static Array<Double> randFloats(int count) {
+        return Random.randFloats(101, count);
+    }
+    public static Array<Double> randFloats(int max, int count) {
+        return Random.randFloats(0, max, count);
+    }
+    public static Array<Double> randFloats(int min, int max, int count) {
+        var arr = new Array<Double>();
+        for(int i = 0; i < count; i++) arr.add(Random.randFloat(min, max));
+        return arr;
+    }
     public static boolean chance(int floor, int ceil) {
         return Random.random(ceil) <= floor;
     }
     public static boolean chance(int floor) {
         return Random.chance(floor, 101);
     }
-    public static boolean ranBool() {
+    public static boolean randBool() {
         return Random.chance(50);
+    }
+    public static Array<Boolean> randBools(int count) {
+        var arr = new Array<Boolean>();
+        for(int i = 0; i < count; i++) arr.add(Random.randBool());
+        return arr;
     }
 }
