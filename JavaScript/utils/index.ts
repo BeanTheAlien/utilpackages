@@ -104,6 +104,9 @@ declare global {
          * @param offset The offset.
          */
         idxsOf(search: string, offset?: number): number[];
+        isNum(): boolean;
+        isDigs(): boolean;
+        isPNum(): boolean;
     }
     interface Number {
         /**
@@ -231,6 +234,15 @@ function idxsOfCore<T>(thisArg: String | Array<T>, search: string | T, off?: num
         i = idx(next);
     }
     return out;
+}
+String.prototype.isNum = function(this) {
+    return this.trim() != "" && !isNaN(this.toNum());
+}
+String.prototype.isDigs = function(this) {
+    return /^\d+$/.test(this.valueOf());
+}
+String.prototype.isPNum = function(this) {
+    return /^-?\d+(\.\d+)?$/.test(this.valueOf());
 }
 
 Number.prototype.roof = function(this) {
